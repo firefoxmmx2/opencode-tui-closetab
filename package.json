@@ -1,0 +1,33 @@
+{
+  "name": "opencode-tui-closetab",
+  "version": "0.1.0",
+  "description": "OpenCode V2 TUI plugin: /close command to close session tabs (learning purpose).",
+  "type": "module",
+  "license": "MIT",
+  "keywords": ["opencode", "opencode-plugin", "tui", "closetab"],
+  "exports": {
+    ".": "./src/index.ts",
+    "./tui": "./src/tui.tsx"
+  },
+  "files": ["src"],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "beta"
+  },
+  "peerDependencies": {
+    "@opentui/core": ">=0.5.8",
+    "@opentui/solid": ">=0.5.8",
+    "solid-js": ">=1.9.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0",
+    "@opentui/core": "*",
+    "@opentui/solid": "*",
+    "solid-js": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
