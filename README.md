@@ -1,4 +1,4 @@
-# opencode-tui-closetab
+# opencode-v2-tui-closetab
 
 > ⚠️ **学习用途 / For learning purposes** — This project is for learning OpenCode V2 plugin development only. The APIs used are beta APIs and may change between versions. Do not use in production.
 
@@ -33,7 +33,7 @@ Add the package name to the `plugins` array in the global `cli.json` or the proj
 
 ```jsonc
 {
-  "plugins": ["opencode-tui-closetab"]
+  "plugins": ["opencode-v2-tui-closetab"]
 }
 ```
 
@@ -48,7 +48,7 @@ Put `src/tui.tsx` into the `plugins/tui/` directory of the global config directo
 ## Project Structure
 
 ```
-opencode-tui-closetab/
+opencode-v2-tui-closetab/
 ├── package.json      # npm package metadata (exports exposes both ./ and ./tui entry points)
 ├── src/
 │   ├── index.ts      # Main entry: declares the plugin id and marks tui: true

@@ -1,4 +1,4 @@
-# opencode-tui-closetab
+# opencode-v2-tui-closetab
 
 > 本文件为中文版，English version: [README.md](./README.md)
 
@@ -35,7 +35,7 @@ OpenCode V2 的 TUI 插件，实现 `/close` 命令关闭会话标签页。**学
 
 ```jsonc
 {
-  "plugins": ["opencode-tui-closetab"]
+  "plugins": ["opencode-v2-tui-closetab"]
 }
 ```
 
@@ -50,7 +50,7 @@ OpenCode V2 的 TUI 插件，实现 `/close` 命令关闭会话标签页。**学
 ## 项目结构
 
 ```
-opencode-tui-closetab/
+opencode-v2-tui-closetab/
 ├── package.json      # npm 包元数据（exports 暴露 ./ 与 ./tui 两个入口）
 ├── src/
 │   ├── index.ts      # 主入口：声明插件 id 并标记 tui: true

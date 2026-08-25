@@ -1,15 +1,31 @@
 {
-  "name": "opencode-tui-closetab",
+  "name": "opencode-v2-tui-closetab",
   "version": "0.1.0",
   "description": "OpenCode V2 TUI plugin: /close command to close session tabs (learning purpose).",
   "type": "module",
   "license": "MIT",
-  "keywords": ["opencode", "opencode-plugin", "tui", "closetab"],
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "tui",
+    "closetab"
+  ],
+  "author": "firefoxmmx2",
+  "homepage": "https://github.com/firefoxmmx2/opencode-tui-closetab",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firefoxmmx2/opencode-tui-closetab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/firefoxmmx2/opencode-tui-closetab/issues"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./tui": "./src/tui.tsx"
   },
-  "files": ["src"],
+  "files": [
+    "src"
+  ],
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
