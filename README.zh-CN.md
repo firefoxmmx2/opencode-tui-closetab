@@ -27,17 +27,27 @@ OpenCode V2 的 TUI 插件，实现 `/close` 命令关闭会话标签页。**学
 
 ## 安装 / 加载方式
 
+> 插件尚未发布到 npm registry，请直接从 GitHub 仓库安装。
+
 二选一：
 
-**1. 作为包安装**
+**1. 从 GitHub 安装（推荐）**
 
-在全局 `cli.json` 或项目 `opencode.json` 的 `plugins` 数组中添加包名：
+用 CLI 安装（会自动把条目写入全局 `~/.config/opencode/opencode.json`）：
+
+```sh
+opencode2 plugin add github:firefoxmmx2/opencode-tui-closetab
+```
+
+或直接把 GitHub 地址写入全局 `opencode.json`（或项目 `opencode.json`）的 `plugins` 数组：
 
 ```jsonc
 {
-  "plugins": ["opencode-v2-tui-closetab"]
+  "plugins": ["github:firefoxmmx2/opencode-tui-closetab"]
 }
 ```
+
+支持分支 / tag / commit hash 固定版本，例如 `github:firefoxmmx2/opencode-tui-closetab#main`；更新到最新提交：`opencode2 plugin update`。
 
 **2. 本地开发（无需打包）**
 

@@ -25,17 +25,27 @@ No confirmation dialogs — closing is immediate. Session content is **not** del
 
 ## Installation / Loading
 
+> The plugin is not yet published to the npm registry, so install it directly from the GitHub repository.
+
 Choose one of the following:
 
-**1. Install as a package**
+**1. Install from GitHub (recommended)**
 
-Add the package name to the `plugins` array in the global `cli.json` or the project `opencode.json`:
+Install with the CLI (it automatically adds the entry to the global `~/.config/opencode/opencode.json`):
+
+```sh
+opencode2 plugin add github:firefoxmmx2/opencode-tui-closetab
+```
+
+Or add the GitHub spec directly to the `plugins` array in the global `opencode.json` (or a project `opencode.json`):
 
 ```jsonc
 {
-  "plugins": ["opencode-v2-tui-closetab"]
+  "plugins": ["github:firefoxmmx2/opencode-tui-closetab"]
 }
 ```
+
+Branches, tags, and commit hashes are supported for pinning, e.g. `github:firefoxmmx2/opencode-tui-closetab#main`. Update to the latest commit with `opencode2 plugin update`.
 
 **2. Local development (no bundling)**
 
