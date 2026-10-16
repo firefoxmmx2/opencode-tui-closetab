@@ -23,7 +23,7 @@ OpenCode V2 的 TUI 插件，实现 `/close` 命令关闭会话标签页。**学
 ## 环境要求
 
 - OpenCode V2（文档：<https://opencode.ai/v2/docs/build/plugins/cli>）
-- 依赖：`@opentui/core`、`@opentui/solid`、`solid-js`（见 `package.json` 的 peerDependencies）
+- 依赖：`@opencode/plugin`（TUI 入口：`@opencode/plugin/tui`）；peer 依赖：`@opentui/core`、`@opentui/solid`、`solid-js`（见 `package.json` 的 peerDependencies）
 
 ## 安装 / 加载方式
 
@@ -63,22 +63,22 @@ opencode2 plugin add github:firefoxmmx2/opencode-tui-closetab
 opencode-v2-tui-closetab/
 ├── package.json      # npm 包元数据（exports 暴露 ./ 与 ./tui 两个入口）
 ├── src/
-│   ├── index.ts      # 主入口：声明插件 id 并标记 tui: true
+│   ├── index.ts      # 主入口：声明插件 id
 │   └── tui.tsx       # TUI 入口：/close 命令实现（含自定义 JSX 多选 dialog）
 ├── README.md
 └── LICENSE           # MIT
 ```
 
-- `src/index.ts`：主入口，标记 `tui: true`，由 OpenCode 加载以关联 TUI 入口。
+- `src/index.ts`：主入口，声明插件 id；OpenCode 通过包的 `./tui` 导出（`src/tui.tsx`）发现 TUI 入口。
 - `src/tui.tsx`：TUI 侧实现。核心要点：
-  - keymap 命令必须在 `ui.slot` 的 `render` 回调（组件上下文，含 `Keymap.Provider`）中注册，不能在 `setup()` 中直接调用 `ctx.keymap.layer()`；
+  - keymap 命令在 `setup()` 中通过 `ctx.keymap.layer(() => ({ ... }))` 直接注册（OpenCode v2 插件 API 已支持；插件卸载时该 layer 会自动移除）；
   - 多选选择器用 `ctx.ui.dialog.show(() => JSX)` 渲染自定义 Solid 组件，键盘处理使用 `@opentui/solid` 的 `useKeyboard`；
   - 中英文自动适配（`options.locale` 或系统 `LANG`/`LC_ALL`）。
 
 ## 免责 / 学习声明
 
 - 本插件**仅用于学习** OpenCode V2 插件开发，非官方项目。
-- 所依赖的插件 API（`@opencode-ai/plugin`、`@opentui/*`）均为 **beta API**，可能随版本变化而破坏兼容性。
+- 所依赖的插件 API（`@opencode/plugin`、`@opentui/*`）均为 **beta API**，可能随版本变化而破坏兼容性。
 - 使用风险自负，请勿用于生产环境。
 
 ## License

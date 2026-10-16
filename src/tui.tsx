@@ -14,10 +14,9 @@
  * 无任何二次 confirm，关闭即关闭；会话内容不会删除，可稍后在会话列表重新打开。
  *
  * 实现要点：
- *  - keymap 命令必须在 ui.slot 的 render 回调（组件上下文，含 Keymap.Provider）中
- *    注册，这是官方运行时支持 keymap.layer 的方式；不要在 setup() 中直接调用
- *    ctx.keymap.layer()（会抛 Keymap.Provider missing）。render 返回 null 不渲染，
- *    用一个 registered 布尔防止重复注册。
+ *  - keymap 命令在 setup() 中通过 ctx.keymap.layer(() => ({ ... })) 直接注册
+ *    （OpenCode v2 插件 API 已支持；插件卸载时该 layer 会自动移除），
+ *    不再需要放到 ui.slot 的 render 回调里注册。
  *  - 多选选择器用 ctx.ui.dialog.show(() => JSX) 渲染自定义 Solid 组件，
  *    键盘用 @opentui/solid 的 useKeyboard（evt.name / evt.sequence），
  *    采用"无聚焦的 filter 状态 + useKeyboard 收集字符"的方式（过滤框不收空格，
@@ -28,7 +27,7 @@
  */
 
 /** @jsxImportSource @opentui/solid */
-import { Plugin } from "@opencode-ai/plugin/tui"
+import { Plugin } from "@opencode/plugin/tui"
 import { TextAttributes, RGBA, type ScrollBoxRenderable, type KeyEvent } from "@opentui/core"
 import { useKeyboard } from "@opentui/solid"
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js"
@@ -276,7 +275,7 @@ function MultiSelect(props: {
       return
     }
     // 其余（字母/数字/标点等）输入到过滤框；忽略带修饰键的组合与空白/控制字符
-    if (!evt.ctrl && !evt.meta && !evt.alt && !evt.option) {
+    if (!evt.ctrl && !evt.meta && !evt.option) {
       const ch = evt.sequence
       if (ch && ch.length === 1 && !/\s/.test(ch) && !/[\x00-\x1f\x7f]/.test(ch)) {
         evt.preventDefault()
@@ -377,34 +376,25 @@ export default Plugin.define({
     const s = (key: keyof typeof SENDERS, ...args: unknown[]) =>
       (SENDERS[key][locale] as (...a: unknown[]) => string)(...args)
 
-    // render 运行在组件上下文（有 Keymap.Provider），在此注册 keymap 命令
-    let registered = false
-    ui.slot({
-      append: "app",
-      render: () => {
-        if (registered) return null
-        registered = true
-        ctx.keymap.layer(() => ({
-          mode: "global",
-          priority: 10,
-          commands: [
-            {
-              id: "tab.close",
-              title: t("cmdTitle"),
-              description: t("cmdDescription"),
-              group: "Session",
-              palette: true,
-              slash: { name: "close", arguments: true },
-              enabled: () => tabs.enabled(),
-              run: (input) => {
-                void start(input)
-              },
-            },
-          ],
-        }))
-        return null
-      },
-    })
+    // 在 setup 中直接注册 keymap 命令
+    ctx.keymap.layer(() => ({
+      mode: "global",
+      priority: 10,
+      commands: [
+        {
+          id: "tab.close",
+          title: t("cmdTitle"),
+          description: t("cmdDescription"),
+          group: "Session",
+          palette: true,
+          slash: { name: "close", arguments: true },
+          enabled: () => tabs.enabled(),
+          run: (input) => {
+            void start(input)
+          },
+        },
+      ],
+    }))
 
     // ---- 入口 ----
     async function start(arg: string | undefined) {
